@@ -1,0 +1,95 @@
+# Node / pnpm
+node_modules/
+.pnpm-store/
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Logs
+logs/
+*.log
+*.log.*
+*.out
+*.err
+
+# TypeScript
+*.tsbuildinfo
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+coverage/
+
+# Expo / React Native
+.expo/
+.expo-shared/
+.expo-dev-client/
+.expo-staging/
+.expo-cache/
+.expo/web/
+.expo/packager-info.json
+.expo/metro-cache/
+.expo/settings.json
+expo-env.d.ts
+*.apk
+*.aab
+*.ipa
+ios/
+android/
+# Si usas EAS managed workflows sin ejectar nativo, puedes ignorar ios/ y android/.
+# Si haces eject a nativo (prebuild), considera versionarlos según tu flujo.
+
+# Metro / Watchman / Cache
+.metro/
+metro-cache/
+watchman/
+watchman.json
+*.hmap
+
+# Vite / Web
+.vite/
+vite.config.ts.timestamp-*
+.vite-inspect/
+
+# Environment files
+.env
+.env.*
+!.env.example
+apps/**/.env
+apps/**/.env.*
+!apps/**/.env.example
+
+# IDE / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.swp
+.DS_Store
+Thumbs.db
+
+# Husky
+.husky/_
+
+# Storybook (si lo usas)
+.storybook-out/
+sb-static/
+
+# Docker
+docker-data/
+*.local.yml
+
+# Misc caches
+.cache/
+tmp/
+temp/
+
+# Mise
+mise.toml

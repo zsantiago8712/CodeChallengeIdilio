@@ -1,0 +1,36 @@
+{
+  "name": "codcxhallengeidilio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma:migrate": "pnpm --filter api exec prisma migrate dev --schema=./prisma/schema.prisma",
+    "prisma:generate": "pnpm --filter api exec prisma generate --schema=./prisma/schema.prisma",
+    "dev": "pnpm --filter backend run dev & pnpm --filter frontend run start",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "apps/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "packages/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.15.0",
+  "type": "module",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "typescript-eslint": "^8.41.0"
+  }
+}

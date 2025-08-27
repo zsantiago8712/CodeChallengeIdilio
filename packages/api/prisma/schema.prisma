@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Cambia si usas otro motor
+  url      = env("DATABASE_URL")
+}
+
+model Show {
+  id            String    @id @default(uuid())
+  nombre        String
+  descripcion   String
+  num_temporadas Int
+  episodes      Episode[]
+  showRatings   ShowRating[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Episode {
+  id            String    @id @default(uuid())
+  id_show       String
+  nombre        String
+  num_temporada Int
+  descripcion   String
+  duracion      Int
+  show          Show      @relation(fields: [id_show], references: [id])
+  episodeRatings EpisodeRating[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model ShowRating {
+  id            String    @id @default(uuid())
+  id_user       String
+  show_id       String
+  calificacion  Int
+  resena        String?
+  show          Show      @relation(fields: [show_id], references: [id])
+  createdAt     DateTime  @default(now())
+}
+
+model EpisodeRating {
+  id            String    @id @default(uuid())
+  id_user       String
+  episodio_id   String
+  calificacion  Int
+  resena        String?
+  episode       Episode   @relation(fields: [episodio_id], references: [id])
+  createdAt     DateTime  @default(now())
+}

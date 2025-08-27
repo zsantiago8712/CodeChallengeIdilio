@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fix for NativeWind dark mode in web */
+:root {
+  color-scheme: light;
+}
