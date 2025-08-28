@@ -3,6 +3,7 @@
     "name": "frontend",
     "slug": "frontend",
     "version": "1.0.0",
+    "scheme": "codechallengeidilio",
     "entryPoint": "./App.tsx",
     "web": {
       "favicon": "./assets/favicon.png"
@@ -10,7 +11,7 @@
     "experiments": {
       "tsconfigPaths": true
     },
-    "plugins": [],
+    "plugins": ["expo-router"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,14 +23,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.frontend"
+      "bundleIdentifier": "com.codechallengeido.frontend"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.frontend"
+      "package": "com.codechallengeido.frontend"
     }
   }
 }

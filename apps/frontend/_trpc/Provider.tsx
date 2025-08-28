@@ -1,10 +1,9 @@
 'use client';
 
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createTRPCClient, httpBatchLink } from '@trpc/client';
-import { trpc } from './client';
-import { useState } from 'react';
-import Layout from '../Layout';
+import { TRPCProvider } from './client';
 
 import type { AppRouter } from '../../../packages/api/src/index';
 import superjson from 'superjson';
@@ -28,6 +27,18 @@ function getQueryClient() {
   }
 }
 
+function getBackendUrl() {
+  const mode = process.env.EXPO_PUBLIC_BACKEND_MODE || 'localhost';
+  const localUrl = process.env.EXPO_PUBLIC_LOCAL_BACKEND_URL || 'http://192.168.68.111:3000/trpc';
+  const ngrokUrl =
+    process.env.EXPO_PUBLIC_NGROK_BACKEND_URL || 'https://f0443ce1b543.ngrok-free.app/trpc';
+
+  const url = mode === 'ngrok' ? ngrokUrl : localUrl;
+  console.log(`🔗 Backend Mode: ${mode}, URL: ${url}`);
+
+  return url;
+}
+
 export default function Provider({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
   const [trpcClient] = useState(() =>
@@ -35,17 +46,17 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       links: [
         httpBatchLink({
           transformer: superjson,
-          url: '/api/trpc',
+          url: getBackendUrl(),
         }),
       ],
     })
   );
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <Layout>{children}</Layout>
-      </QueryClientProvider>
-    </trpc.Provider>
+    <QueryClientProvider client={queryClient}>
+      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+        {children}
+      </TRPCProvider>
+    </QueryClientProvider>
   );
 }

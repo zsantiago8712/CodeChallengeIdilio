@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:migrate": "pnpm --filter api exec prisma migrate dev --schema=./prisma/schema.prisma",
     "prisma:generate": "pnpm --filter api exec prisma generate --schema=./prisma/schema.prisma",
-    "dev": "pnpm --filter backend run dev & pnpm --filter frontend run start",
+    "dev:back": "pnpm --filter backend run dev",
+    "dev:front": "pnpm --filter frontend run start",
+    "dev:front:tunel": "pnpm --filter frontend run start:tunel",
     "prepare": "husky"
   },
   "lint-staged": {

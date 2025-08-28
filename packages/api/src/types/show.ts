@@ -1,5 +1,17 @@
 import z from "zod";
 import { Category } from "@prisma/client";
+import { inferProcedureOutput } from "@trpc/server";
+import { AppRouter } from "../../../../packages/api/src/index";
+
+export const categoryLabels = {
+  [Category.ACTION]: "Action",
+  [Category.COMEDY]: "Comedy",
+  [Category.DRAMA]: "Drama",
+  [Category.HORROR]: "Horror",
+  [Category.ROMANCE]: "Romance",
+  [Category.FANTASY]: "Fantasy",
+  [Category.SCI_FI]: "Science Fiction",
+};
 
 export const showEpisondes = z.object({
   name: z.string(),
@@ -18,9 +30,13 @@ export const showSchema = z.object({
   episodes: z.array(showEpisondes).optional(),
 });
 
-export const getShowsSchema = showSchema.extend({
+export const getShowsSchema = z.object({
+  category: z.enum(Category),
   limit: z.number().min(1).max(20).default(10),
   cursor: z.string().nullish().optional(),
 });
 
 export type Show = z.infer<typeof showSchema>;
+export type Shows = inferProcedureOutput<
+  AppRouter["shows"]["getShowsByCategory"]
+>["shows"][number];

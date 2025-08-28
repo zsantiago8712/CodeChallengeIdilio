@@ -33,17 +33,25 @@ export const showRouter = router({
       return show;
     }),
 
-  getShowsForDisplay: publicProcedure
+  getShowsByCategory: publicProcedure
     .input(getShowsSchema)
     .query(async ({ ctx, input }) => {
       const shows = await ctx.prisma.show.findMany({
+        where: {
+          category: input.category,
+        },
         take: input.limit,
         cursor: input.cursor ? { id: input.cursor } : undefined,
+        skip: input.cursor ? 1 : 0,
+        orderBy: {
+          id: "asc",
+        },
         select: {
           id: true,
           name: true,
           description: true,
           num_seasons: true,
+          category: true,
           images: {
             select: {
               url: true,
@@ -59,9 +67,14 @@ export const showRouter = router({
       });
 
       let nextCursor: string | undefined = undefined;
-      if (shows.length > input.limit) {
-        const nextItem = shows.pop();
-        nextCursor = nextItem!.id;
+
+      if (shows.length >= input.limit) {
+        const nextItem =
+          shows[shows.length > input.limit ? input.limit : input.limit - 1];
+        nextCursor = nextItem.id;
+        shows.length = input.limit;
+      } else {
+        nextCursor = undefined;
       }
 
       const showWithAvg = shows.map((show) => {
@@ -70,7 +83,7 @@ export const showRouter = router({
           show.showRatings.length;
         return {
           ...show,
-          avg,
+          score: avg.toFixed(1),
         };
       });
 
