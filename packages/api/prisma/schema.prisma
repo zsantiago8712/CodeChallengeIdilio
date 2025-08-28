@@ -3,50 +3,93 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // Cambia si usas otro motor
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+enum Category {
+  ACTION
+  COMEDY
+  DRAMA
+  FANTASY
+  HORROR
+  ROMANCE
+  SCI_FI
+}
+
 model Show {
-  id            String    @id @default(uuid())
-  nombre        String
-  descripcion   String
-  num_temporadas Int
-  episodes      Episode[]
-  showRatings   ShowRating[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String          @id @default(uuid())
+  name         String
+  category     Category
+  description  String
+  num_seasons  Int
+  episodes     Episode[]
+  showRatings  ShowRating[]
+  userLikes    UserLikeShows[]
+  images       ShowImage[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model ShowImage {
+  id        String   @id @default(uuid())
+  show_id   String
+  url       String
+  show      Show     @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([show_id])
 }
 
 model Episode {
-  id            String    @id @default(uuid())
-  id_show       String
-  nombre        String
-  num_temporada Int
-  descripcion   String
-  duracion      Int
-  show          Show      @relation(fields: [id_show], references: [id])
+  id            String          @id @default(uuid())
+  show_id       String
+  name          String
+  num_episode   Int
+  num_season    Int
+  description   String
+  duration      Int
+  show          Show            @relation(fields: [show_id], references: [id], onDelete: Cascade)
   episodeRatings EpisodeRating[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([show_id])
+  @@index([num_season, num_episode])
 }
 
 model ShowRating {
-  id            String    @id @default(uuid())
-  id_user       String
-  show_id       String
-  calificacion  Int
-  resena        String?
-  show          Show      @relation(fields: [show_id], references: [id])
-  createdAt     DateTime  @default(now())
+  id        String   @id @default(uuid())
+  user_id   String
+  show_id   String
+  score     Int
+  review    String?
+  show      Show     @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([show_id])
+  @@index([user_id, show_id])
 }
 
 model EpisodeRating {
-  id            String    @id @default(uuid())
-  id_user       String
-  episodio_id   String
-  calificacion  Int
-  resena        String?
-  episode       Episode   @relation(fields: [episodio_id], references: [id])
-  createdAt     DateTime  @default(now())
+  id          String   @id @default(uuid())
+  user_id     String
+  episode_id  String
+  score       Int
+  review      String?
+  episode     Episode  @relation(fields: [episode_id], references: [id], onDelete: Cascade)
+
+  @@index([episode_id])
+  @@index([user_id, episode_id])
+}
+
+model UserLikeShows {
+  id        String   @id @default(uuid())
+  user_id   String
+  show_id   String
+  show      Show     @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([user_id, show_id])
+  @@index([show_id])
 }
