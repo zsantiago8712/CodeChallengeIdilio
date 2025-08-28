@@ -17,18 +17,21 @@ enum Category {
   SCI_FI
 }
 
-model Show {
-  id           String          @id @default(uuid())
-  name         String
-  category     Category
-  description  String
-  num_seasons  Int
-  episodes     Episode[]
-  showRatings  ShowRating[]
-  userLikes    UserLikeShows[]
-  images       ShowImage[]
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
+model Episode {
+  id            String          @id @default(uuid())
+  show_id       String
+  name          String
+  num_episode   Int
+  num_season    Int
+  description   String
+  duration      Int
+  show          Show            @relation(fields: [show_id], references: [id], onDelete: Cascade)
+  episodeRatings EpisodeRating[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([show_id])
+  @@index([num_season, num_episode])
 }
 
 model ShowImage {
