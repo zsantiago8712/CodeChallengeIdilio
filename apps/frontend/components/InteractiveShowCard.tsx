@@ -1,6 +1,7 @@
 import { Badge, Box, Text } from '@/components/ui';
+import { useDeleteLikeShow, useSetLikeShow } from '@/hooks/use-shows';
 import { Heart, Play } from 'lucide-react-native';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { Animated, Image, TouchableOpacity } from 'react-native';
 import { Shows, categoryLabels } from '../../../packages/api/src/types/show';
 
@@ -15,6 +16,12 @@ const InteractiveShowCard = memo(({ show, onPress, width = 150 }: InteractiveSho
     const [scaleAnim] = useState(new Animated.Value(1));
     const [opacityAnim] = useState(new Animated.Value(1));
     const [isLiked, setIsLiked] = useState(false);
+    const { mutateAsync: setLikeShow } = useSetLikeShow();
+    const { mutateAsync: deleteLikeShow } = useDeleteLikeShow();
+
+    useEffect(() => {
+        setIsLiked(show.isLiked || false);
+    }, [show]);
 
     // Usar la primera imagen disponible
     const firstImage = show.showImages[0]?.url || '';
@@ -51,9 +58,22 @@ const InteractiveShowCard = memo(({ show, onPress, width = 150 }: InteractiveSho
         ]).start();
     }, [scaleAnim, opacityAnim]);
 
-    const handleLikePress = useCallback(() => {
-        setIsLiked(!isLiked);
-    }, [isLiked]);
+    const handleLikePress = useCallback(
+        (show_id: string) => {
+            if (isLiked) {
+                deleteLikeShow({
+                    show_id: show_id,
+                });
+                setIsLiked(false);
+            } else {
+                setLikeShow({
+                    show_id: show_id,
+                });
+                setIsLiked(true);
+            }
+        },
+        [isLiked, setLikeShow, deleteLikeShow]
+    );
 
     return (
         <Animated.View
@@ -104,7 +124,7 @@ const InteractiveShowCard = memo(({ show, onPress, width = 150 }: InteractiveSho
                                         ? 'border border-red-500/40 bg-red-500/20'
                                         : 'border border-white/20 bg-white/15'
                                 }`}
-                                onPress={handleLikePress}>
+                                onPress={() => handleLikePress(show.id)}>
                                 <Heart
                                     size={16}
                                     color={isLiked ? '#EF4444' : '#FFFFFF'}
