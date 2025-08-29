@@ -1,10 +1,10 @@
 packages:
-  - apps/*
-  - packages/*
+    - apps/*
+    - packages/*
 
 nodeLinker: hoisted
 
 onlyBuiltDependencies:
-  - '@prisma/client'
-  - '@prisma/engines'
-  - prisma
+    - '@prisma/client'
+    - '@prisma/engines'
+    - prisma

@@ -1,0 +1,7 @@
+# Ignore Gluestack UI components
+components/ui/**/*
+
+# Ignore build directories
+dist/*
+.expo/*
+node_modules/*

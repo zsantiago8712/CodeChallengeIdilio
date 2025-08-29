@@ -1,13 +1,20 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true,
-    "jsx": "react-jsx",
-
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["src/*"],
-      "components/*": ["components/*"]
+    "extends": "expo/tsconfig.base",
+    "compilerOptions": {
+        "strict": true,
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./"],
+            "@/components/*": ["./components/*"],
+            "@/app/*": ["./app/*"],
+            "@/hooks/*": ["./hooks/*"],
+            "@/utils/*": ["./utils/*"],
+            "@/types/*": ["./types/*"],
+            "@/assets/*": ["./assets/*"],
+            "@/_trpc/*": ["./_trpc/*"],
+            "~/src/*": ["./src/*"],
+            "tailwind.config": ["./tailwind.config.js"]
+        }
     }
-  }
 }

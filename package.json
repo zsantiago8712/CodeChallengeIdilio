@@ -7,8 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:migrate": "pnpm --filter api exec prisma migrate dev --schema=./prisma/schema.prisma",
     "prisma:generate": "pnpm --filter api exec prisma generate --schema=./prisma/schema.prisma",
-    "dev": "pnpm --filter backend run dev & pnpm --filter frontend run start",
-    "prepare": "husky"
+    "dev:back": "pnpm --filter backend run dev",
+    "dev:front": "pnpm --filter frontend run start",
+    "dev:front:tunel": "pnpm --filter frontend run start:tunel",
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "pnpm --filter frontend run lint",
+    "lint:fix": "pnpm --filter frontend run format"
   },
   "lint-staged": {
     "apps/**/*.{js,jsx,ts,tsx}": [
@@ -31,6 +37,7 @@
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2",
     "typescript-eslint": "^8.41.0"
   }
 }
