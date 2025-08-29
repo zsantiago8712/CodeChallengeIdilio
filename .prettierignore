@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.next/
+.expo/
+.expo-shared/
+
+# Generated files
+*.tsbuildinfo
+.DS_Store
+
+# Package manager files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+logs/
+
+# Coverage
+coverage/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Temporary files
+.tmp/
+temp/
+
+# Config files that might have custom formatting
+metro.config.js
+babel.config.js
+tailwind.config.js
+
+# Auto-generated or vendor files
+public/
+assets/

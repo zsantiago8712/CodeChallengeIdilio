@@ -17,6 +17,27 @@ enum Category {
   SCI_FI
 }
 
+
+model Show {
+  id            String          @id @default(uuid())
+  name          String
+  description   String
+  category      Category
+  num_seasons   Int
+  year_released Int
+
+  showImages    ShowImage[]
+  showRatings   ShowRating[]
+  userLikeShows UserLikeShows[]
+  episodes      Episode[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([name])
+  @@index([category])
+  @@index([year_released])
+}
+
 model Episode {
   id            String          @id @default(uuid())
   show_id       String
@@ -44,23 +65,6 @@ model ShowImage {
   @@index([show_id])
 }
 
-model Episode {
-  id            String          @id @default(uuid())
-  show_id       String
-  name          String
-  num_episode   Int
-  num_season    Int
-  description   String
-  duration      Int
-  show          Show            @relation(fields: [show_id], references: [id], onDelete: Cascade)
-  episodeRatings EpisodeRating[]
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-
-  @@index([show_id])
-  @@index([num_season, num_episode])
-}
-
 model ShowRating {
   id        String   @id @default(uuid())
   user_id   String
@@ -70,6 +74,7 @@ model ShowRating {
   show      Show     @relation(fields: [show_id], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
+  @@unique([user_id, show_id])
   @@index([show_id])
   @@index([user_id, show_id])
 }
@@ -82,6 +87,7 @@ model EpisodeRating {
   review      String?
   episode     Episode  @relation(fields: [episode_id], references: [id], onDelete: Cascade)
 
+  @@unique([user_id, episode_id])
   @@index([episode_id])
   @@index([user_id, episode_id])
 }

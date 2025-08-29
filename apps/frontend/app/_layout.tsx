@@ -1,18 +1,21 @@
-import React from 'react';
+import Provider from '@/_trpc/Provider';
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import '@/global.css';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Stack } from 'expo-router';
-import Provider from '../_trpc/Provider';
 
 export default function RootLayout() {
-  return (
-    <Provider>
-      <SafeAreaProvider>
-        <StatusBar style="auto" />
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </SafeAreaProvider>
-    </Provider>
-  );
+    return (
+        <GluestackUIProvider mode="dark">
+            <Provider>
+                <SafeAreaProvider>
+                    <StatusBar style="light" />
+                    <Stack>
+                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    </Stack>
+                </SafeAreaProvider>
+            </Provider>
+        </GluestackUIProvider>
+    );
 }

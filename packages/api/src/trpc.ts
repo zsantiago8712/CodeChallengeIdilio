@@ -1,11 +1,11 @@
-import { initTRPC } from "@trpc/server";
-import superjson from "superjson";
+import { initTRPC } from '@trpc/server';
+import superjson from 'superjson';
 
 // Importa el tipo Context desde el backend
-import type { Context } from "../../../apps/backend/src/context";
+import type { Context } from '../../../apps/backend/src/context';
 
 const t = initTRPC.context<Context>().create({
-  transformer: superjson,
+    transformer: superjson,
 });
 
 export const router = t.router;

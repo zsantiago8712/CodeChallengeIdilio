@@ -1,62 +1,62 @@
-import React from 'react';
-import { FlatList, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
-import { useRouter } from 'expo-router';
-import CategoryCarousel from '../../components/CategoryCarousel';
+import { Box } from '@/components/ui';
+import { useRefreshShows } from '@/hooks/use-shows';
 import { Category } from '@prisma/client';
+import { useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { FlatList, RefreshControl, StatusBar } from 'react-native';
+import CategoryCarousel from '../../components/CategoryCarousel';
 
-/**
- * Home Screen - Shows carousel for each category
- * Each carousel handles its own data fetching
- */
 export default function HomeScreen() {
-  const router = useRouter();
+    const router = useRouter();
 
-  // Categorías a mostrar
-  const categories = [
-    Category.ACTION,
-    Category.DRAMA,
-    Category.COMEDY,
-    Category.SCI_FI,
-    Category.FANTASY,
-    Category.HORROR,
-    Category.ROMANCE,
-  ];
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
-  /**
-   * Handle show selection
-   */
-  const handleShowPress = (showId: string) => {
-    router.push(`/show/${showId}`);
-  };
+    const { refresh } = useRefreshShows();
 
-  /**
-   * Render each category carousel
-   */
-  const renderCategory = ({ item }: { item: Category }) => (
-    <CategoryCarousel category={item} onShowPress={handleShowPress} />
-  );
+    const categories = Object.values(Category);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#0F172A" />
+    const handleShowPress = (showId: string) => {
+        router.push(`/show/${showId}`);
+    };
 
-      <FlatList
-        data={categories}
-        renderItem={renderCategory}
-        keyExtractor={(item) => item}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-      />
-    </SafeAreaView>
-  );
+    const handleRefresh = useCallback(async () => {
+        setIsRefreshing(true);
+        await refresh();
+
+        setTimeout(() => {
+            setIsRefreshing(false);
+        }, 1000);
+    }, [refresh]);
+
+    const renderCategory = ({ item }: { item: Category }) => (
+        <CategoryCarousel category={item} onShowPress={handleShowPress} />
+    );
+
+    return (
+        <Box className="flex-1 bg-slate-900">
+            <StatusBar barStyle="light-content" backgroundColor="#0F172A" />
+
+            <FlatList
+                data={categories}
+                renderItem={renderCategory}
+                keyExtractor={(item) => item}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingTop: 40,
+                    paddingBottom: 0,
+                }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isRefreshing}
+                        onRefresh={handleRefresh}
+                        tintColor="#8B5CF6"
+                        colors={['#8B5CF6']}
+                        progressBackgroundColor="#1E293B"
+                        title="Actualizando shows..."
+                        titleColor="#FFFFFF"
+                    />
+                }
+            />
+        </Box>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0F172A',
-  },
-  contentContainer: {
-    paddingBottom: 140,
-  },
-});
