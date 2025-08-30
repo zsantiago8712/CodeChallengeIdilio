@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Bookmark, Home, Search, User } from 'lucide-react-native';
+import { Heart, Home, Search, User } from 'lucide-react-native';
 
 const colors = {
     slate: {
@@ -50,10 +50,10 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="downloads"
+                name="likes"
                 options={{
                     title: 'Mi Lista',
-                    tabBarIcon: ({ size, color }) => <Bookmark size={size} color={color} />,
+                    tabBarIcon: ({ size, color }) => <Heart size={size} color={color} />,
                 }}
             />
             <Tabs.Screen

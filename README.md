@@ -4,6 +4,13 @@ Esta aplicación móvil implementa un catálogo de shows con categorías, carrus
 horizontales y pantalla de detalle, diseñada específicamente para Android e iOS
 usando React Native, Expo, tRPC, Prisma y Supabase.
 
+## 🎥 Video Demostración
+
+**[Ver demostración completa de la aplicación](https://www.loom.com/share/37320db31dfe4661a78cd2e6ddbe57a1?sid=e7d24eeb-1c27-45a5-a30a-87ecd7bd3cec)**
+
+El video muestra todas las funcionalidades implementadas, navegación entre
+pantallas y componentes técnicos de la aplicación.
+
 ## Estructura del proyecto
 
 El monorepo permite compartir lógica, tipos y UI entre frontend móvil y backend,
@@ -55,4 +62,158 @@ exclusivamente para dispositivos móviles con una experiencia de usuario nativa.
 
 ---
 
-¿Quieres agregar alguna decisión técnica más o personalizar algún apartado?
+## 🚀 Cómo ejecutar el proyecto
+
+**⚠️ RECOMENDACIÓN IMPORTANTE:** Se recomienda ejecutar el backend y frontend
+por separado para un mejor control y debugging.
+
+### Backend (Puerto 3000)
+
+```bash
+# Terminal 1 - Ejecutar el servidor backend
+pnpm run dev:back
+```
+
+### Frontend (Expo)
+
+```bash
+# Terminal 2 - Ejecutar la aplicación móvil
+pnpm run dev:front
+
+# Alternativa con túnel para dispositivos físicos
+pnpm run dev:front:tunel
+```
+
+### Comandos adicionales disponibles
+
+```bash
+# Linting y formato de código
+pnpm run lint
+pnpm run lint:fix
+pnpm run format
+
+# Prisma - Base de datos
+pnpm prisma:generate  # Genera el cliente Prisma
+pnpm prisma:migrate   # Ejecuta migraciones
+
+# Ejecutar en plataformas específicas
+pnpm --filter frontend run ios
+pnpm --filter frontend run android
+pnpm --filter frontend run web
+```
+
+---
+
+## 🗄️ Base de Datos
+
+La aplicación utiliza **Prisma** como ORM, evitando completamente el uso de
+consultas SQL directas. Esto proporciona:
+
+- **Type Safety** completo entre backend y base de datos
+- **Migrations** automáticas y versionadas
+- **Schema declarativo** fácil de mantener
+- **Query optimization** automática
+- **Relaciones** manejadas de forma elegante
+
+### Beneficios de usar Prisma
+
+- No hay consultas SQL escritas manualmente
+- Autocompletado y validación de tipos en tiempo de desarrollo
+- Migraciones seguras y reversibles
+- Introspección automática del esquema
+
+---
+
+## 🤖 Uso de IA en el Desarrollo
+
+Durante el desarrollo de este proyecto, se utilizó inteligencia artificial
+únicamente para:
+
+- **Consultas de documentación** técnica
+- **Resolución de errores** específicos de sintaxis
+- **Clarificaciones** sobre mejores prácticas
+- **Ejemplos de uso** de librerías específicas
+
+**Importante:** La lógica de negocio, arquitectura del proyecto, y
+implementación de funcionalidades fueron desarrolladas completamente de forma
+manual, sin generación automática de código por IA.
+
+---
+
+## 🚀 Mejoras Futuras y Funcionalidades Adicionales
+
+Si hubiéramos tenido más tiempo, se habrían implementado las siguientes
+funcionalidades para llevar la aplicación al siguiente nivel:
+
+### **🔐 Autenticación y Perfiles**
+
+- **Sistema de login/registro** con email y contraseña
+- **Autenticación social** (Google, Apple, Facebook)
+- **Perfiles múltiples** por cuenta (como Netflix)
+- **Preferencias personalizadas** por usuario
+- **Historial de visualización** y progreso de episodios
+- **Recomendaciones basadas** en el comportamiento del usuario
+
+### **🎨 Carrusel de Imágenes Avanzado**
+
+- **Múltiples imágenes** por show (posters, screenshots, artwork)
+- **Carrusel automático** que se mueve solo cada 3-5 segundos
+- **Indicadores de navegación** (dots, flechas)
+- **Transiciones suaves** con animaciones nativas
+- **Lazy loading** para optimizar rendimiento
+- **Zoom y pan** en imágenes de alta resolución
+
+### **🎬 Funcionalidades de Streaming**
+
+- **Reproductor de video** integrado
+- **Controles de reproducción** personalizados
+- **Subtítulos** y opciones de audio
+- **Calidad adaptativa** según conexión
+- **Descarga offline** para ver sin internet
+- **Chromecast** y AirPlay support
+
+### **📱 Experiencia de Usuario Avanzada**
+
+- **Modo offline** completo
+- **Notificaciones push** para nuevos episodios
+- **Tema claro/oscuro** configurable
+- **Accesibilidad** mejorada (VoiceOver, TalkBack)
+- **Gestos avanzados** (swipe para like, pull to refresh)
+- **Modo landscape** optimizado
+
+### **⚡ Optimizaciones Técnicas**
+
+- **Cache avanzado** con persistencia local
+- **Precarga inteligente** de contenido
+- **Optimización de imágenes** automática
+- **Bundle splitting** para carga más rápida
+- **Métricas de rendimiento** y analytics
+- **Error boundary** y crash reporting
+
+### **🔍 Funcionalidades de Descubrimiento**
+
+- **Filtros avanzados** (año, género, rating, duración)
+- **Búsqueda por voz** usando Speech-to-Text
+- **Recomendaciones IA** basadas en ML
+- **Trending** y contenido popular
+- **Listas curadas** por editores
+- **Función "Random"** para descubrir contenido
+
+### **👥 Funcionalidades Sociales**
+
+- **Compartir shows** con amigos
+- **Reseñas y comentarios** de usuarios
+- **Listas colaborativas** entre amigos
+- **Sistema de seguimiento** de amigos
+- **Ratings y recomendaciones** sociales
+- **Watch parties** virtuales
+
+### **📊 Dashboard y Analytics**
+
+- **Panel de administración** para gestión de contenido
+- **Métricas de uso** y engagement
+- **A/B testing** para nuevas features
+- **Sistema de reportes** y moderación
+- **Analytics de comportamiento** de usuario
+
+---
