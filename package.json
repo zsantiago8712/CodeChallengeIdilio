@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "pnpm --filter frontend run lint",
-    "lint:fix": "pnpm --filter frontend run format"
+    "lint:fix": "pnpm --filter frontend run format",
+    "seed": "pnpm --filter api run seed"
   },
   "lint-staged": {
     "apps/**/*.{js,jsx,ts,tsx}": [
