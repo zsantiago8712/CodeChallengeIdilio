@@ -16,8 +16,7 @@ export default function HomeScreen() {
     const categories = Object.values(Category);
 
     const handleShowPress = (showId: string) => {
-        console.log('showId lol', showId);
-        router.push(`/detail/${showId}`);
+        router.push(`/show/${showId}`);
     };
 
     const handleRefresh = useCallback(async () => {

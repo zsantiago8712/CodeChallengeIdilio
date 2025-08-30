@@ -51,7 +51,7 @@ export const useRefreshShows = () => {
     const queryClient = useQueryClient();
     return {
         refresh: () => {
-            queryClient.invalidateQueries({ queryKey: ['getShowsByCategory'] });
+            queryClient.invalidateQueries();
         },
     };
 };
@@ -63,11 +63,9 @@ export const useSetLikeShow = () => {
     return useMutation(
         trpc.shows.setLikeShow.mutationOptions({
             onSuccess: () => {
-                queryClient.invalidateQueries({
-                    queryKey: trpc.shows.getShowsByCategory.queryKey(),
-                });
-                queryClient.invalidateQueries({ queryKey: trpc.shows.getShowById.queryKey() });
-                queryClient.invalidateQueries({ queryKey: trpc.shows.getMyShows.queryKey() });
+                console.log('Show like success - invalidating queries...');
+
+                queryClient.invalidateQueries();
             },
 
             onError: (error) => {
@@ -88,11 +86,10 @@ export const useDeleteLikeShow = () => {
     return useMutation(
         trpc.shows.deleteLikeShow.mutationOptions({
             onSuccess: () => {
-                queryClient.invalidateQueries({
-                    queryKey: trpc.shows.getShowsByCategory.queryKey(),
-                });
-                queryClient.invalidateQueries({ queryKey: trpc.shows.getShowById.queryKey() });
-                queryClient.invalidateQueries({ queryKey: trpc.shows.getMyShows.queryKey() });
+                console.log('Show delike success - invalidating queries...');
+
+                // Estrategia agresiva: invalidar y refetch
+                queryClient.invalidateQueries();
             },
 
             onError: (error) => {
@@ -100,7 +97,7 @@ export const useDeleteLikeShow = () => {
             },
 
             onSettled: () => {
-                console.log('Like show settled');
+                console.log('Delike show settled');
             },
         })
     );
@@ -114,11 +111,8 @@ export const useSetShowScore = () => {
         trpc.shows.setShowScore.mutationOptions({
             onSuccess: () => {
                 console.log('Show score success');
-                queryClient.invalidateQueries({
-                    queryKey: trpc.shows.getShowsByCategory.queryKey(),
-                });
-                queryClient.invalidateQueries({ queryKey: trpc.shows.getShowById.queryKey() });
-                queryClient.invalidateQueries({ queryKey: trpc.shows.getMyShows.queryKey() });
+                // Invalidar todas las queries relacionadas con shows
+                queryClient.invalidateQueries();
             },
 
             onError: (error) => {
@@ -130,4 +124,37 @@ export const useSetShowScore = () => {
             },
         })
     );
+};
+
+export const useGetMyShows = () => {
+    const trpc = useTRPC();
+
+    const result = useQuery({
+        ...trpc.shows.getMyShows.queryOptions(),
+        staleTime: 5 * 60 * 1000,
+    });
+
+    return {
+        data: result.data,
+        isLoading: result.isLoading,
+        error: result.error,
+        refetch: result.refetch,
+    };
+};
+
+export const useSearchShows = (searchTerm: string) => {
+    const trpc = useTRPC();
+
+    const result = useQuery({
+        ...trpc.shows.getShowsForSearch.queryOptions({ text: searchTerm }),
+        enabled: searchTerm.length > 0,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    return {
+        data: result.data,
+        isLoading: result.isLoading,
+        error: result.error,
+        refetch: result.refetch,
+    };
 };
