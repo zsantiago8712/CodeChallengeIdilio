@@ -4,6 +4,14 @@ Esta aplicación móvil implementa un catálogo de shows con categorías, carrus
 horizontales y pantalla de detalle, diseñada específicamente para Android e iOS
 usando React Native, Expo, tRPC, Prisma y Supabase.
 
+## 📋 Reto Técnico Original
+
+**[Ver documento completo del reto técnico](./Reto%20técnico.pdf)**
+
+Este proyecto fue desarrollado como respuesta al reto técnico de Idilio, donde
+se solicitaba crear una aplicación móvil de catálogo de contenido con
+funcionalidades específicas de navegación, categorización y detalle de shows.
+
 ## 🎥 Video Demostración
 
 **[Ver demostración completa de la aplicación](https://www.loom.com/share/37320db31dfe4661a78cd2e6ddbe57a1?sid=e7d24eeb-1c27-45a5-a30a-87ecd7bd3cec)**
@@ -79,9 +87,6 @@ pnpm run dev:back
 ```bash
 # Terminal 2 - Ejecutar la aplicación móvil
 pnpm run dev:front
-
-# Alternativa con túnel para dispositivos físicos
-pnpm run dev:front:tunel
 ```
 
 ### Comandos adicionales disponibles
@@ -92,15 +97,83 @@ pnpm run lint
 pnpm run lint:fix
 pnpm run format
 
-# Prisma - Base de datos
+# Base de datos y datos de prueba
 pnpm prisma:generate  # Genera el cliente Prisma
 pnpm prisma:migrate   # Ejecuta migraciones
+pnpm run seed         # Pobla la base de datos con shows e imágenes
 
 # Ejecutar en plataformas específicas
 pnpm --filter frontend run ios
 pnpm --filter frontend run android
 pnpm --filter frontend run web
 ```
+
+---
+
+## ⚙️ Configuración de Variables de Entorno
+
+La aplicación requiere configuración de variables de entorno tanto para el
+backend como para el frontend. Se incluyen archivos `.env.example` como
+plantillas.
+
+### Backend (packages/api/.env)
+
+```bash
+# Base de datos PostgreSQL
+DATABASE_URL="postgresql://usuario:password@host:puerto/nombre_bd"
+
+# Supabase - Para almacenamiento de imágenes
+SUPABASE_URL="https://tu-proyecto.supabase.co"
+SUPABASE_ANON_KEY="tu_anon_key_aqui"
+SUPABASE_SERVICE_ROLE_KEY="tu_service_role_key_aqui"
+```
+
+### Frontend (apps/frontend/.env)
+
+```bash
+# Configuración del backend
+# Opciones: 'localhost' para desarrollo local o 'ngrok' para testing remoto
+EXPO_PUBLIC_BACKEND_MODE=localhost
+
+# URL local de desarrollo (actualiza la IP con tu dirección local)
+EXPO_PUBLIC_LOCAL_BACKEND_URL=http://192.168.68.111:3000/trpc
+
+# URL de ngrok (actualiza cuando reinicies ngrok)
+EXPO_PUBLIC_NGROK_BACKEND_URL=https://your-ngrok-url.ngrok-free.app/trpc
+```
+
+### 🗃️ Configuración de Supabase
+
+La aplicación utiliza **Supabase** para:
+
+- **PostgreSQL Database:** Base de datos principal para almacenar shows,
+  categorías y ratings
+- **Storage:** Almacenamiento de imágenes de shows (posters y banners)
+
+#### Pasos para configurar Supabase
+
+1. **Crear proyecto** en [supabase.com](https://supabase.com)
+2. **Copiar credenciales** del dashboard de tu proyecto
+3. **Configurar Storage bucket** llamado `show-images` (público)
+4. **Actualizar variables** en `.env` del backend
+
+### 🌱 Poblar la Base de Datos
+
+Después de configurar las variables de entorno, ejecuta el script de seed para
+poblar la base de datos con shows de ejemplo:
+
+```bash
+# Poblar base de datos con shows e imágenes
+pnpm run seed
+```
+
+**El script de seed:**
+
+- Crea categorías predefinidas (Action, Comedy, Drama, etc.)
+- Inserta 100+ shows con datos realistas
+- Sube imágenes automáticamente a Supabase Storage
+- Genera ratings aleatorios para cada show
+- Crea datos de prueba completos para testing
 
 ---
 
